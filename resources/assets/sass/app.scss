@@ -148,6 +148,12 @@ p {
     color: #fff;
   }
 }
+#logout {
+  cursor: default;
+  &:hover {
+    background-color: transparent;
+  }
+}
 /* forms */
 
 input, textarea, select, .uneditable-input {
