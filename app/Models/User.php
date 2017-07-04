@@ -54,4 +54,10 @@ class User extends Model implements AuthenticatableContract,
         $user->activation_token = str_random(30);
       });
     }
+
+
+    public function statuses()
+    {
+      return $this->hasMany(Status::class);
+    }
 }
