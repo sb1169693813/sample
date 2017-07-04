@@ -6,15 +6,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Auth;
 class SessionsController extends Controller
 {
-    public function __construct()
-    {
-      $this->authorize('guest', [
-        'only' =>['create'],
-      ]);
-    }
+    // public function __construct()
+    // {
+    //   $this->authorize('guest', [
+    //     'only' =>['create']
+    //   ]);
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +27,7 @@ class SessionsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource.登录
      *
      * @return \Illuminate\Http\Response
      */
@@ -53,8 +54,18 @@ class SessionsController extends Controller
      ];
      if(Auth::attempt($credentials,$request->has('remember')))
      {
-       session()->flash('success', '欢迎回来！');
-       return redirect()->intended(route('users.show', [Auth::user()]));
+       //验证是否激活
+       if(Auth::user()->activated)
+       {
+         session()->flash('success', '欢迎回来！');
+         return redirect()->intended(route('users.show', [Auth::user()]));
+       }
+       else
+       {
+         Auth::logout();
+         session()->flash('warning', '你的账号未激活，请检查邮箱中的注册邮件进行激活。');
+         return redirect('/');
+       }
      }
      else
      {
