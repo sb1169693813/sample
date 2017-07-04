@@ -25,3 +25,6 @@ Route::post('login', 'SessionsController@store')->name('login');
 Route::delete('logout', 'SessionsController@destroy')->name('logout');
 //用户激活邮箱
 Route::get('signup/confirm/{token}','UsersController@confirmEmail')->name('confirm_email');
+//密码重置
+Route::get('password/reset/{token}','Auth\PasswordController@getReset')->name('password.reset');
+Route::post('password/reset','Auth\PasswordController@postReset')->name('password.update');
